@@ -40,7 +40,4 @@ jobs:
         shell: bash
         
       - name: Testing iOS app
-        run: exec ./.github/scripts/test_app.sh
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3.1.1
+        run: tuist test
