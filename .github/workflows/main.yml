@@ -33,6 +33,6 @@ jobs:
       - name: Build
         run: |
           rm -rf DerivedData
-          xcodebuild ARCHS=x86_64 -workspace MyProject.xcworkspace \
+          xcodebuild ARCHS=x86_64 -workspace PhotoEditor.xcworkspace \
             -scheme TestHost -sdk iphonesimulator -configuration Debug \
             -derivedDataPath DerivedData clean build
