@@ -34,5 +34,5 @@ jobs:
         run: |
           rm -rf DerivedData
           xcodebuild ARCHS=x86_64 -workspace PhotoEditor.xcworkspace \
-            -scheme TestHost -sdk iphonesimulator -configuration Debug \
+            -scheme PhotoEditor -sdk iphonesimulator -configuration Debug \
             -derivedDataPath DerivedData clean build
