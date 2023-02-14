@@ -20,7 +20,7 @@ class BaseCoordinator {
         childCoordinators.append(coordinator)
     }
     
-    //remove object
+    //remove object from coordinator
     func removeDependency(_ coordinator: Coordinatable?) {
         guard childCoordinators.isEmpty == false,
               let coordinator = coordinator else { return }
