@@ -10,4 +10,8 @@ import Foundation
 
 enum RouteInstruction {
     case main
+    
+    static func setup() -> Self {
+        return .main
+    }
 }
