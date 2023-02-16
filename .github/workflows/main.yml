@@ -11,8 +11,7 @@ jobs:
     runs-on: macos-12
     strategy:
       fail-fast: false
-      matrix:
-        tuist_version: [3.12.1]
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
