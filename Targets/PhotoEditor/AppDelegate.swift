@@ -1,4 +1,6 @@
 import UIKit
+import PhotoEditorKit
+import PhotoEditorUI
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
