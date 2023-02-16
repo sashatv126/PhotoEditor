@@ -7,6 +7,7 @@
 //
 
 import Foundation
+@testable import PhotoEditor
 
 final class AppCoordinatorMock: AppCoordinator {
     private(set) var startCallCount = 0

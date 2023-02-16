@@ -1,5 +1,5 @@
 //
-//  MainViewController.swift
+//  MainView.swift
 //  PhotoEditor
 //
 //  Created by Александр Александрович on 16.02.2023.

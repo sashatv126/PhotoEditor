@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
-extension AppDelegate {
-    private func makeCoordinator() -> Coordinatable {
+private extension AppDelegate {
+    func makeCoordinator() -> Coordinatable {
         let coordinatorFactory = CoordinatorFactory()
         let router = Router(rootController: rootController)
         return AppCoordinator(router: router, factory: coordinatorFactory)

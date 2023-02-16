@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol MainFlowOutput {
+    var flowOutput: HandlerVoid? { get set }
+}
+
 final class MainCoordinator: BaseCoordinator, MainFlowOutput {
     var flowOutput: HandlerVoid?
     
