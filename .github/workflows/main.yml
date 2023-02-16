@@ -35,6 +35,10 @@ jobs:
         run: |
           tuist cache warm
         shell: bash
+        
+      - name: "Clean old workspace setup"
+        run: |
+          tuist clean
 
       - name: Generate project with tuist
         run: |
