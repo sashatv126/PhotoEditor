@@ -9,7 +9,7 @@
 import Foundation
 
 public final class Disposable {
-    let dispose: HandlerVoid
+    let dispose: () -> ()
     
     init(_ dispose: @escaping () -> Void) {
         self.dispose = dispose
