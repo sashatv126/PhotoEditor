@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import PhotoEditor
+import PhotoEditor
 
 final class BindTest: XCTestCase {
     

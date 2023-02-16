@@ -21,10 +21,12 @@ public final class Disposable {
 }
 
 public final class DisposeBag {
-    private var disposables: [Disposable] = []
+    var disposables: [Disposable] = []
     public func append(_ disposable: Disposable) {
         disposables.append(disposable)
     }
+    
+    public init() {}
 }
 
 public extension Disposable {
