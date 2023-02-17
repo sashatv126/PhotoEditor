@@ -47,7 +47,8 @@ extension Project {
             "CFBundleShortVersionString": "1.0",
             "CFBundleVersion": "1",
             "UIMainStoryboardFile": "",
-            "UILaunchStoryboardName": "LaunchScreen"
+            "UILaunchStoryboardName": "LaunchScreen",
+            "NSCameraUsageDescription": "Allow please"
             ]
 
         let mainTarget = Target(
@@ -57,7 +58,8 @@ extension Project {
             bundleId: "io.tuist.\(name)",
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Targets/\(name)/Sources/**"],
-            resources: ["Targets/\(name)/Resources/**"],
+            resources: ["Targets/\(name)/Resources/**",
+                        "Targets/\(name)/Resources/Assets.xcassets/**"],
             dependencies: dependencies
         )
 

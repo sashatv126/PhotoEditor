@@ -65,5 +65,13 @@ final class PetProjectExtensionTests: XCTestCase {
         
         XCTAssertEqual(exp, view)
     }
+    
+    func testAddSubviews() {
+        view = UIView()
+        let sub = UIView()
+        
+        view.addSubviews(sub)
+        XCTAssertEqual(view.subviews.count, 1)
+    }
 
 }

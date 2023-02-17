@@ -14,7 +14,8 @@ protocol ScreenFactoryProtocol {
 
 struct ScreenFactory: ScreenFactoryProtocol {
     func makeMainScreen() -> MainViewController {
-        let viewModel = MainViewModel()
+        let cameraManager = CameraManager()
+        let viewModel = MainViewModel(cameraAPI: cameraManager)
         let vc = MainViewController(viewModel: viewModel)
         return vc
     }
