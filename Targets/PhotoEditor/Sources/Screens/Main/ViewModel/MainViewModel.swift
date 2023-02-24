@@ -10,9 +10,10 @@ import Foundation
 import AVFoundation
 import CoreImage
 import PhotoEditorKit
+import UIKit
 
 protocol MainViewModelLogic {
-    var ciImage: Observable<CIImage>? { get }
+    var uIImage: Observable<UIImage>? { get }
     
     func takePicture(isGetted: Bool)
     func checkPermission()
@@ -22,7 +23,7 @@ protocol MainViewModelLogic {
 }
 
 final class MainViewModel:MainViewModelLogic {
-    var ciImage: Observable<CIImage>? = Observable(CIImage())
+    var uIImage: Observable<UIImage>? = Observable(UIImage())
     
     private var cameraAPI: CameraManagerLogic?
     
@@ -53,9 +54,24 @@ extension MainViewModel {
     }
     
     func getImage() {
-        cameraAPI?.handler = { ciIBuffer in
+        cameraAPI?.handler = { [weak self] ciIBuffer in
             let ciImage = CIImage(cvImageBuffer: ciIBuffer)
-            self.ciImage?.value = ciImage
+            let uiImage = UIImage(ciImage: ciImage)
+            let resizeImage = self?.resizeImage(image: uiImage, scale: 0.5)
+            if let resizeImage = resizeImage {
+                self?.uIImage?.value = resizeImage
+            }
         }
+    }
+}
+
+extension MainViewModel {
+    private func resizeImage(image: UIImage, scale: CGFloat) -> UIImage {
+        let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+        let renderer = UIGraphicsImageRenderer(size: size)
+        let resizedImage = renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: size))
+        }
+        return resizedImage
     }
 }

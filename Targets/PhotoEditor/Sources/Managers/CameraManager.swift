@@ -28,7 +28,7 @@ final class CameraManager: NSObject, CameraManagerLogic {
     private var backInput: AVCaptureInput!
     private var frontInput: AVCaptureInput!
     private var videoOutput: AVCaptureVideoDataOutput!
-    var takePicture: Bool = false
+    internal var takePicture: Bool = false
     
     private var previewLayer: AVCaptureVideoPreviewLayer!
     
@@ -53,7 +53,7 @@ final class CameraManager: NSObject, CameraManagerLogic {
         case .authorized:
             return
         case .denied:
-            abort()
+            debugPrint("denied")
         case .notDetermined:
             AVCaptureDevice.requestAccess(
                 for: AVMediaType.video,
@@ -64,7 +64,7 @@ final class CameraManager: NSObject, CameraManagerLogic {
                         }
                     })
         case .restricted:
-            abort()
+            debugPrint("restricted")
         @unknown default:
             fatalError()
         }
@@ -79,7 +79,7 @@ final class CameraManager: NSObject, CameraManagerLogic {
         videoOutput = AVCaptureVideoDataOutput()
         let videoQueue = DispatchQueue(label: "videoQueue", qos: .userInteractive)
         videoOutput.setSampleBufferDelegate(self, queue: videoQueue)
-        
+        videoOutput.alwaysDiscardsLateVideoFrames = true
         if captureSession.canAddOutput(videoOutput) {
             captureSession.addOutput(videoOutput)
         } else {
@@ -101,28 +101,15 @@ extension CameraManager {
     private func setupInputs() {
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
             backCamera = device
-        } else {
-            fatalError("no back camera")
         }
         if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
             frontCamera = device
-        } else {
-            fatalError("no front camera")
         }
-        guard let bInput = try? AVCaptureDeviceInput(device: backCamera) else {
-            fatalError("could not create input device from back camera")
-        }
+        guard let bInput = try? AVCaptureDeviceInput(device: backCamera) else { return }
         backInput = bInput
-        if !captureSession.canAddInput(backInput) {
-            fatalError("could not add back camera input to capture session")
-        }
-        guard let fInput = try? AVCaptureDeviceInput(device: frontCamera) else {
-            fatalError("could not create input device from front camera")
-        }
+        
+        guard let fInput = try? AVCaptureDeviceInput(device: frontCamera) else { return }
         frontInput = fInput
-        if !captureSession.canAddInput(frontInput) {
-            fatalError("could not add front camera input to capture session")
-        }
         captureSession.addInput(backInput)
     }
 }
@@ -130,12 +117,9 @@ extension CameraManager {
 extension CameraManager: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
-        //guard takePicture else  { return }
-                
+        guard takePicture else  { return }
         
-        guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
+        guard let cvBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         handler?(cvBuffer)
     }
 }

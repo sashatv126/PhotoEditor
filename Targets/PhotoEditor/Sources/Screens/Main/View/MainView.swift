@@ -14,7 +14,6 @@ protocol MainViewPresent: AnyObject {
 }
 
 final class MainView: UIView {
-    
     weak var delegate: MainViewPresent?
     
     private(set) var switchCameraButton : UIButton = {
@@ -36,8 +35,7 @@ final class MainView: UIView {
     }()
     
     private(set) var collection: UICollectionView = {
-        //var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-        let layout = createLayoutV()
+        let layout = MainLayoutBuilder.createLayout()
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -52,38 +50,6 @@ final class MainView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError()
-    }
-    
-    private func createLayout() {
-        
-    }
-    
-    static func createLayoutV() -> UICollectionViewLayout {
-        let configure = UICollectionViewCompositionalLayoutConfiguration()
-        
-        let layout = UICollectionViewCompositionalLayout(sectionProvider: { index, env in
-            switch index {
-            case 0:
-                return createHorizontalSectionLayoutV()!
-            default:
-                return createHorizontalSectionLayoutV()!
-            }
-        }, configuration: configure)
-        return layout
-    }
-    
-    private static func createHorizontalSectionLayoutV() -> NSCollectionLayoutSection? {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                              heightDimension: .fractionalHeight(1))
-        
-        
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), subitems: [item])
-
-        let section = NSCollectionLayoutSection(group: group)
-        
-        section.orthogonalScrollingBehavior = .groupPaging
-        return section
     }
 }
 

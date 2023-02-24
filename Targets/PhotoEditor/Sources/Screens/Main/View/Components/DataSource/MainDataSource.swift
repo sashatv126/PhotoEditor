@@ -22,9 +22,7 @@ final class MainDataSource: MainDataSourceProtocol {
     func reloadData(model: [Image], animate: Bool) {
         var snapshot = NSDiffableDataSourceSnapshot<MainSections, Image>()
         snapshot.appendSections([.images])
-        
         snapshot.appendItems(model, toSection: .images)
-        
         dataSource?.apply(snapshot, animatingDifferences: animate)
     }
 }

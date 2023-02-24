@@ -6,17 +6,19 @@
 //  Copyright © 2023 tuist.io. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol ScreenFactoryProtocol {
-    func makeMainScreen() -> MainViewController
+    func makeMainScreen() -> UIViewController
 }
 
 struct ScreenFactory: ScreenFactoryProtocol {
-    func makeMainScreen() -> MainViewController {
+    func makeMainScreen() -> UIViewController {
         let cameraManager = CameraManager()
         let viewModel = MainViewModel(cameraAPI: cameraManager)
-        let vc = MainViewController(viewModel: viewModel)
+        let view = MainView()
+        let vc = MainViewController(viewModel: viewModel, view: view)
+        view.delegate = vc
         return vc
     }
 }
