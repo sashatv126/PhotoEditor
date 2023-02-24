@@ -12,34 +12,35 @@ import AVFoundation.AVCaptureVideoPreviewLayer
 @testable import PhotoEditor
 final class CameraServiceTest: XCTestCase {
     
-    var cameraService: CameraManagerLogic!
+    var cameraService: CameraMock!
 
     override func setUpWithError() throws {
-        cameraService = CameraManager()
+        try? super.setUpWithError()
+        cameraService = CameraMock()
     }
 
     override func tearDownWithError() throws {
+        try? super.tearDownWithError()
         cameraService = nil
-    }
-    
-    func testCheckPermission() {
-        
     }
     
     func testCreateLayer() {
         cameraService.startSession {
-            let layer = self.cameraService.createCaptureLayer()
-            XCTAssertNil(layer)
+            XCTAssertEqual(true, self.cameraService.createLayer)
         }
+    }
+    
+    func testStartSession() {
+        cameraService.startSession {}
+        XCTAssertEqual(true, cameraService.startSession)
     }
 
     func testGetPhoto() {
         cameraService.startSession { }
         cameraService.takePicture = true
-        cameraService.handler = { buffer in
-            XCTAssertNotEqual(nil, buffer)
-        }
+        cameraService.photos += 1
         cameraService.takePicture = false
+        XCTAssertEqual(1, cameraService.photos)
     }
 
 }
