@@ -33,6 +33,8 @@ extension DetailImageCoordinator: Coordinatable {
     func start() {
         perform()
     }
+    
+    //sasha
 }
 
 extension DetailImageCoordinator: UIViewControllerTransitioningDelegate {
