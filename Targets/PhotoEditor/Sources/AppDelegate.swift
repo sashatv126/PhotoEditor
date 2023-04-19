@@ -3,6 +3,7 @@ import PhotoEditorKit
 import PhotoEditorUI
 
 @main
+//gaysex
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
