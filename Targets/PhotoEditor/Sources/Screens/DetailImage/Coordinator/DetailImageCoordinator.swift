@@ -26,8 +26,6 @@ final class DetailImageCoordinator: BaseCoordinator, DetailImageFlowOutput {
 
 extension DetailImageCoordinator {
     private func perform() {
-        let vc = factory.makeScreen(.detailImage(delegate: self))
-        router.setRootModule(vc)
     }
 }
 
