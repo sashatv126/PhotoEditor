@@ -13,17 +13,18 @@ import PhotoEditorKit
 import UIKit
 
 protocol MainViewModelLogic {
-    var uIImage: Observable<UIImage>? { get }
+    var uIImage: Observable<UIImage?>? { get }
     
     func takePicture(isGetted: Bool)
     func checkPermission()
     func getPreviewLayer() -> AVCaptureVideoPreviewLayer?
     func startSession(setupPreview: @escaping () -> ())
     func getImage()
+    func switchCamera()
 }
 
 final class MainViewModel:MainViewModelLogic {
-    var uIImage: Observable<UIImage>? = Observable(UIImage())
+    var uIImage: Observable<UIImage?>? = Observable(nil)
     
     private var cameraAPI: CameraManagerLogic?
     
@@ -62,6 +63,10 @@ extension MainViewModel {
                 self?.uIImage?.value = resizeImage
             }
         }
+    }
+    
+    func switchCamera() {
+        cameraAPI?.switchCamera()
     }
 }
 

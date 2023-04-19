@@ -25,14 +25,18 @@ final class MainView: UIView {
         return button
     }()
     
-    private(set) var captureImageButton : UIButton = {
-        let button = UIButton()
+    private(set) var captureImageButton: CaptureButton = {
+        let button = CaptureButton()
         button.backgroundColor = .white
         button.tintColor = .white
-        button.layer.cornerRadius = 25
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        captureImageButton.layer.cornerRadius = captureImageButton.frame.width / 2
+    }
     
     private(set) var collection: UICollectionView = {
         let layout = MainLayoutBuilder.createLayout()
@@ -66,10 +70,10 @@ extension MainView {
             switchCameraButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
             captureImageButton.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-            captureImageButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            captureImageButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -30),
             captureImageButton.widthAnchor.constraint(equalToConstant: 50),
             captureImageButton.heightAnchor.constraint(equalToConstant: 50),
-
+            
             collection.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -10),
             collection.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10),
             collection.heightAnchor.constraint(equalTo: heightAnchor,multiplier: 0.25),
@@ -77,19 +81,22 @@ extension MainView {
         ])
         collection.backgroundColor = .clear
         switchCameraButton.addTarget(self, action: #selector(switchCamera(_:)), for: .touchUpInside)
-        captureImageButton.addTarget(self, action: #selector(captureImage(_:)), for: .touchUpInside)
+        addTargets()
+    }
+    
+    private func addTargets() {
+        captureImageButton.handler = { [weak self] in
+            self?.delegate?.captureImage()
+        }
     }
 }
 
 //MARK: - Targets -
 extension MainView {
     @objc
-    private func captureImage(_ sender: UIButton?){
-        delegate?.captureImage()
-    }
-    
-    @objc
     private func switchCamera(_ sender: UIButton?){
+        sender?.isUserInteractionEnabled = false
         delegate?.switchCamera()
+        sender?.isUserInteractionEnabled = true
     }
 }

@@ -11,10 +11,11 @@ import AVFoundation
 protocol CameraManagerLogic {
     var handler: ((CVImageBuffer) -> Void)? { get set }
     var takePicture: Bool { get set }
-   
+    
     func checkPermission()
     func startSession(_ previewClosure: @escaping () -> ())
     func createCaptureLayer() -> AVCaptureVideoPreviewLayer
+    func switchCamera()
 }
 
 final class CameraManager: NSObject, CameraManagerLogic {
@@ -31,6 +32,13 @@ final class CameraManager: NSObject, CameraManagerLogic {
     internal var takePicture: Bool = false
     
     private var previewLayer: AVCaptureVideoPreviewLayer!
+    
+    enum CameraType {
+        case front
+        case back
+    }
+    
+    private var currentCamera: CameraType = .front
     
     func startSession(_ previewClosure: @escaping () -> ()) {
         queue.async { [self] in
@@ -88,6 +96,26 @@ final class CameraManager: NSObject, CameraManagerLogic {
         
         videoOutput.connections.first?.videoOrientation = .portrait
     }
+    
+    func switchCamera() {
+        captureSession.beginConfiguration()
+        switch currentCamera {
+        case .front:
+            print(backInput, frontInput)
+            captureSession.removeInput(backInput)
+            captureSession.addInput(frontInput)
+            currentCamera = .back
+        case .back:
+            print(backInput, frontInput)
+            captureSession.removeInput(frontInput)
+            captureSession.addInput(backInput)
+            currentCamera = .front
+        }
+        videoOutput.connections.first?.videoOrientation = .portrait
+        
+        captureSession.commitConfiguration()
+    }
+    
 }
 
 extension CameraManager {
@@ -110,6 +138,7 @@ extension CameraManager {
         
         guard let fInput = try? AVCaptureDeviceInput(device: frontCamera) else { return }
         frontInput = fInput
+        
         captureSession.addInput(backInput)
     }
 }

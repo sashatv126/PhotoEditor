@@ -9,7 +9,7 @@
 import UIKit
 import PhotoEditorKit
 
-final class MainViewController<View: MainView>: BaseViewController<MainView> {
+final class MainViewController: BaseViewController<MainView> {
     private let viewModel: MainViewModelLogic
     private var dataSource: MainDataSourceProtocol?
     private var images: [Image] = []
@@ -47,10 +47,13 @@ final class MainViewController<View: MainView>: BaseViewController<MainView> {
     
     private func bind() {
         viewModel.uIImage?.bindAndFire({ [weak self] uiimage in
-            guard let self = self else { return }
+            guard
+                let uiimage,
+                let self else { return }
             self.updateUI(img: uiimage) {
                 DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
+                    guard let self else { return }
+                    print(self.images)
                     self.dataSource?.reloadData(model: self.images, animate: true)
                     self.scrollToLast()
                 }
@@ -83,7 +86,7 @@ final class MainViewController<View: MainView>: BaseViewController<MainView> {
 
 extension MainViewController: MainViewPresent {
     func switchCamera() {
-        
+        viewModel.switchCamera()
     }
     
     func captureImage() {

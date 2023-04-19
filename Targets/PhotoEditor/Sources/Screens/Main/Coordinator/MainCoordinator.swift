@@ -6,7 +6,7 @@
 //  Copyright © 2023 tuist.io. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol MainFlowOutput {
     var flowOutput: HandlerVoid? { get set }
@@ -26,7 +26,7 @@ final class MainCoordinator: BaseCoordinator, MainFlowOutput {
 
 extension MainCoordinator {
     private func perform() {
-        let vc = factory.makeMainScreen()
+        let vc = factory.makeScreen(.main)
         router.setRootModule(vc)
     }
 }
@@ -34,5 +34,9 @@ extension MainCoordinator {
 extension MainCoordinator: Coordinatable {
     func start() {
         perform()
+    }
+    
+    func openImage() {
+        
     }
 }

@@ -1,10 +1,5 @@
 import ProjectDescription
 
-/// Project helpers are functions that simplify the way you define your project.
-/// Share code to create targets, settings, dependencies,
-/// Create your own conventions, e.g: a func that makes sure all shared targets are "static frameworks"
-/// See https://docs.tuist.io/guides/helpers/
-
 extension Project {
     /// Helper function to create the Project for this ExampleApp
     public static func app(name: String, platform: Platform, additionalTargets: [String]) -> Project {
@@ -25,6 +20,7 @@ extension Project {
                 platform: platform,
                 product: .framework,
                 bundleId: "io.tuist.\(name)",
+                deploymentTarget: .iOS(targetVersion: "15.0", devices: .iphone),
                 infoPlist: .default,
                 sources: ["Targets/\(name)/Sources/**"],
                 resources: [],
@@ -33,6 +29,7 @@ extension Project {
                 platform: platform,
                 product: .unitTests,
                 bundleId: "io.tuist.\(name)Tests",
+                deploymentTarget: .iOS(targetVersion: "15.0", devices: .iphone),
                 infoPlist: .default,
                 sources: ["Targets/\(name)/Tests/**"],
                 resources: [],
@@ -56,6 +53,7 @@ extension Project {
             platform: platform,
             product: .app,
             bundleId: "io.tuist.\(name)",
+            deploymentTarget: .iOS(targetVersion: "15.0", devices: .iphone),
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Targets/\(name)/Sources/**"],
             resources: ["Targets/\(name)/Resources/**",
@@ -68,6 +66,8 @@ extension Project {
             platform: platform,
             product: .unitTests,
             bundleId: "io.tuist.\(name)Tests",
+            deploymentTarget: .iOS(targetVersion: "15.0", devices: .iphone),
+            
             infoPlist: .default,
             sources: ["Targets/\(name)/Tests/**"],
             dependencies: [

@@ -14,6 +14,7 @@ final class MainImageCell: ReusableCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUI()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -34,4 +35,7 @@ final class MainImageCell: ReusableCell {
             capturedImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0)
         ])
     }
+}
+
+extension MainImageCell {
 }
